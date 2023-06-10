@@ -9,10 +9,6 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        app: ["FirstApp", "SecondApp", "Modules"]
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -24,27 +20,23 @@ jobs:
         uses: docker/login-action@v1
         with:
           username: 9014680042
-          password: sandeep@231
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and Push Docker Image
-        env:
-          APP_NAME: ${{ matrix.app }}
         run: |
-          if [[ $APP_NAME == "FirstApp" ]]; then
+          if [[ ${{ github.event_path }} == *"FirstApp"* ]]; then
             docker build -t 9014680042/firstapp:poc FirstApp
             docker push 9014680042/firstapp:poc
           fi
 
-          if [[ $APP_NAME == "SecondApp" ]]; then
+          if [[ ${{ github.event_path }} == *"SecondApp"* ]]; then
             docker build -t 9014680042/secondapp:poc SecondApp
             docker push 9014680042/secondapp:poc
-            
           fi
 
-          if [[ $APP_NAME == "Modules" ]]; then
+          if [[ ${{ github.event_path }} == *"Modules"* ]]; then
             docker build -t 9014680042/firstapp:poc FirstApp
             docker build -t 9014680042/secondapp:poc SecondApp
             docker push 9014680042/firstapp:poc
             docker push 9014680042/secondapp:poc
-            
           fi
