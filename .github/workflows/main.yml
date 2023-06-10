@@ -22,21 +22,28 @@ jobs:
           username: 9014680042
           password: sandeep@231
 
+      - name: Determine App to Build
+        id: app_to_build
+        run: |
+          if [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^FirstApp/')" ]; then
+            echo "::set-output name=app::FirstApp"
+          elif [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^SecondApp/')" ]; then
+            echo "::set-output name=app::SecondApp"
+          elif [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '^(FirstApp/|SecondApp/)')" ]; then
+            echo "::set-output name=app::Modules"
+          fi
+
       - name: Build and Push Docker Image
         env:
-          APP_NAME: ${{ env.APP_NAME }}
+          APP_NAME: ${{ steps.app_to_build.outputs.app }}
         run: |
           if [[ $APP_NAME == "FirstApp" ]]; then
-            docker build -t 9014680042/firstapp:poc .
+            docker build -t 9014680042/firstapp:poc ./FirstApp
             docker push 9014680042/firstapp:poc
-          fi
-
-          if [[ $APP_NAME == "SecondApp" ]]; then
-            docker build -t 9014680042/secondapp:poc .
+          elif [[ $APP_NAME == "SecondApp" ]]; then
+            docker build -t 9014680042/secondapp:poc ./SecondApp
             docker push 9014680042/secondapp:poc
-          fi
-
-          if [[ $APP_NAME == "Modules" ]]; then
+          elif [[ $APP_NAME == "Modules" ]]; then
             docker build -t 9014680042/firstapp:poc ./FirstApp
             docker build -t 9014680042/secondapp:poc ./SecondApp
             docker push 9014680042/firstapp:poc
