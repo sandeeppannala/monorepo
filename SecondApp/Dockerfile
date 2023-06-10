@@ -4,7 +4,7 @@ FROM ubuntu
 WORKDIR /app
 
 # Copy the 'Modules' directory
-COPY ../Modules /app/Modules
+COPY Modules /app/Modules
 
 # Copy application files
 COPY file1 /app/file1
