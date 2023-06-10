@@ -19,9 +19,9 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           if [[ ${{ github.event_path }} == *"FirstApp"* ]]; then
-            docker build -t ghcr.io/sandeeppannala/monorepo/FirstApp:${{ github.sha }} FirstApp
-            echo sandeep@231 | docker login ghcr.io -u sandeep.pannala@gmail.com --password-stdin
-            docker push ghcr.io/${{ github.repository_owner }}/firstapp:${{ github.sha }}
+            docker build -t docker.io/sandeeppannala/monorepo/FirstApp:${{ github.sha }} FirstApp
+            echo ${{ secrets.DOCKER_PASSWORD }} | docker login docker.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+            docker push docker.io/sandeeppannala/monorepo/FirstApp:${{ github.sha }}
           fi
 
           if [[ ${{ github.event_path }} == *"SecondApp"* ]]; then
