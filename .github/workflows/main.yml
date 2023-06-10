@@ -23,16 +23,18 @@ jobs:
           password: sandeep@231
 
       - name: Build and Push Docker Image
+        env:
+          APP_NAME: ${{ matrix.app }}
         run: |
-          if [[ ${{ github.event_path }} == "FirstApp" ]]; then
+          if [[ $APP_NAME == "FirstApp" ]]; then
             docker build -t 9014680042/firstapp:poc FirstApp
           fi
 
-          if [[ ${{ github.event_path }} == "SecondApp" ]]; then
+          if [[ $APP_NAME == "SecondApp" ]]; then
             docker build -t 9014680042/secondapp:poc SecondApp
           fi
 
-          if [[ ${{ github.event_path }} == "Modules" ]]; then
+          if [[ $APP_NAME == "Modules" ]]; then
 
             docker build -t 9014680042/firstapp:poc FirstApp
             docker build -t 9014680042/secondapp:poc SecondApp
