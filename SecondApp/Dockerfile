@@ -7,8 +7,10 @@ WORKDIR /app
 COPY ../Modules /app/Modules
 
 # Copy application files
-COPY file1 /app/file1
-COPY file2 /app/file2
+#COPY file1 /app/file1
+#COPY file2 /app/file2
+COPY SecondApp/file1 /app/file1
+COPY SecondApp/file2 /app/file2
 
 # Any additional instructions to build the application
 

@@ -9,8 +9,12 @@ WORKDIR /app
 COPY ../Modules /app/Modules
 
 # Copy application files
-COPY file1 /app/file1
-COPY file2 /app/file2
+#COPY file1 /app/file1
+#COPY file2 /app/file2
 
+
+# Copy application files
+COPY FirstApp/file1 /app/file1
+COPY FirstApp/file2 /app/file2
 # Any additional instructions to build the application
 
