@@ -29,13 +29,13 @@ jobs:
             echo "::set-output name=app::FirstApp"
           elif [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^SecondApp/')" ]; then
             echo "::set-output name=app::SecondApp"
-          elif [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '^(FirstApp/|SecondApp/)')" ]; then
+          elif [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^Modules/')" ]; then
             echo "::set-output name=app::Modules"
           fi
 
       - name: Build and Push Docker Image
         env:
-          APP_NAME: FirstApp
+          APP_NAME: ${{ steps.app_to_build.outputs.app }}
         run: |
           if [[ $APP_NAME == "FirstApp" ]]; then
             docker build -t 9014680042/firstapp:poc ./FirstApp
@@ -44,8 +44,8 @@ jobs:
             docker build -t 9014680042/secondapp:poc ./SecondApp
             docker push 9014680042/secondapp:poc
           elif [[ $APP_NAME == "Modules" ]]; then
-            docker build -t 9014680042/firstapp:poc ./FirstApp
-            docker build -t 9014680042/secondapp:poc ./SecondApp
+            docker build -t 9014680042/firstapp:poc ./Modules/FirstApp
+            docker build -t 9014680042/secondapp:poc ./Modules/SecondApp
             docker push 9014680042/firstapp:poc
             docker push 9014680042/secondapp:poc
           fi
