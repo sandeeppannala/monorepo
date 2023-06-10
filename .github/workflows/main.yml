@@ -25,11 +25,11 @@ jobs:
       - name: Determine App to Build
         id: app_to_build
         run: |
-          if [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^FirstApp/')" ]; then
+          if [ -n "$(git log --name-only --pretty=oneline --since=1.commit -- FirstApp/ | grep '^FirstApp/')" ]; then
             echo "::set-output name=app::FirstApp"
-          elif [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^SecondApp/')" ]; then
+          elif [ -n "$(git log --name-only --pretty=oneline --since=1.commit -- SecondApp/ | grep '^SecondApp/')" ]; then
             echo "::set-output name=app::SecondApp"
-          elif [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^Modules/')" ]; then
+          elif [ -n "$(git log --name-only --pretty=oneline --since=1.commit -- Modules/ | grep '^Modules/')" ]; then
             echo "::set-output name=app::Modules"
           fi
 
