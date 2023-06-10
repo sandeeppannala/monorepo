@@ -22,14 +22,14 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           if [[ ${{ github.event_path }} == *"FirstApp"* ]]; then
-            docker buildx build --platform linux/amd64 --push -t sandeep.pannala@gmail.com/firstapp:${{ github.sha }} FirstApp
+            docker buildx build --platform linux/amd64 --push -t 9014680042/firstapp:${{ github.sha }} FirstApp
           fi
 
           if [[ ${{ github.event_path }} == *"SecondApp"* ]]; then
-            docker buildx build --platform linux/amd64 --push -t sandeep.pannala@gmail.com/secondapp:${{ github.sha }} SecondApp
+            docker buildx build --platform linux/amd64 --push -t 9014680042/secondapp:${{ github.sha }} SecondApp
           fi
 
           if [[ ${{ github.event_path }} == *"Modules"* ]]; then
-            docker buildx build --platform linux/amd64 --push -t sandeep.pannala@gmail.com/firstapp:${{ github.sha }} FirstApp
-            docker buildx build --platform linux/amd64 --push -t sandeep.pannala@gmail.com/secondapp:${{ github.sha }} SecondApp
+            docker buildx build --platform linux/amd64 --push -t 9014680042/firstapp:${{ github.sha }} FirstApp
+            docker buildx build --platform linux/amd64 --push -t 9014680042/secondapp:${{ github.sha }} SecondApp
           fi
