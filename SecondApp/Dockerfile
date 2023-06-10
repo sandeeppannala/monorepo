@@ -1,11 +1,12 @@
 # Dockerfile for FirstApp
 FROM ubuntu
 RUN mkdir /app
+RUN mkdir /app/Modules/
 WORKDIR /app
 
 # Copy the 'Modules' directory
-COPY ../Modules /app/Modules
-
+COPY ../Modules/file1 /app/Modules/file1
+COPY ../Modules/file2 /app/Modules/file2
 # Copy application files
 #COPY file1 /app/file1
 #COPY file2 /app/file2
