@@ -25,11 +25,13 @@ jobs:
       - name: Determine App to Build
         id: app_to_build
         run: |
-          if [[ -n $(git diff-tree --name-only --no-commit-id ${{ github.event.before }} ${{ github.sha }} | grep -E '^FirstApp/|^FirstApp$') ]]; then
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+
+          if echo "$CHANGED_FILES" | grep -qE '^FirstApp/|^FirstApp$'; then
             echo "::set-output name=app::FirstApp"
-          elif [[ -n $(git diff-tree --name-only --no-commit-id ${{ github.event.before }} ${{ github.sha }} | grep -E '^SecondApp/|^SecondApp$') ]]; then
+          elif echo "$CHANGED_FILES" | grep -qE '^SecondApp/|^SecondApp$'; then
             echo "::set-output name=app::SecondApp"
-          elif [[ -n $(git diff-tree --name-only --no-commit-id ${{ github.event.before }} ${{ github.sha }} | grep -E '^Modules/|^Modules$') ]]; then
+          elif echo "$CHANGED_FILES" | grep -qE '^Modules/|^Modules$'; then
             echo "::set-output name=app::Modules"
           else
             echo "::set-output name=app::None"
