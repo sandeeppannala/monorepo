@@ -32,13 +32,19 @@ jobs:
         run: |
           if [[ $APP_NAME == "FirstApp" ]]; then
             docker build -t 9014680042/firstapp:poc FirstApp
+            docker push 9014680042/firstapp:poc
           fi
 
           if [[ $APP_NAME == "SecondApp" ]]; then
             docker build -t 9014680042/secondapp:poc SecondApp
+            docker push 9014680042/secondapp:poc
+            
           fi
 
           if [[ $APP_NAME == "Modules" ]]; then
             docker build -t 9014680042/firstapp:poc FirstApp
             docker build -t 9014680042/secondapp:poc SecondApp
+            docker push 9014680042/firstapp:poc
+            docker push 9014680042/secondapp:poc
+            
           fi
