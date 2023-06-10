@@ -9,6 +9,10 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        app: ["FirstApp", "SecondApp", "Modules"]
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -35,7 +39,6 @@ jobs:
           fi
 
           if [[ $APP_NAME == "Modules" ]]; then
-
             docker build -t 9014680042/firstapp:poc FirstApp
             docker build -t 9014680042/secondapp:poc SecondApp
           fi
