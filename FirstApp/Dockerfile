@@ -3,6 +3,8 @@ FROM ubuntu
 
 RUN mkdir /app
 
+RUN mkdir /app/Modules
+
 WORKDIR /app
 
 # Copy the 'Modules' directory
