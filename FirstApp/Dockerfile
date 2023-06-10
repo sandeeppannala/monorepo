@@ -7,6 +7,6 @@ WORKDIR /app
 # Copy application files from the builder stage
 
 # Copy additional application files
-COPY FirstApp/file1 /app/FirstApp/file1
-COPY FirstApp/file2 /app/FirstApp/file2
+COPY file1 /app/file1
+COPY file2 /app/file2
 
