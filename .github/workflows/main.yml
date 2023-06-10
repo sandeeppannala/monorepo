@@ -25,25 +25,15 @@ jobs:
       - name: Determine App to Build
         id: app_to_build
         run: |
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-
-          if echo "$CHANGED_FILES" | grep -qE '^FirstApp/|^FirstApp$'; then
+          if [[ -n $(git log --name-only --pretty=oneline --since=1.commit -- FirstApp/ | grep -E '^FirstApp/|^FirstApp$') ]]; then
             echo "::set-output name=app::FirstApp"
-          elif echo "$CHANGED_FILES" | grep -qE '^SecondApp/|^SecondApp$'; then
+          elif [[ -n $(git log --name-only --pretty=oneline --since=1.commit -- SecondApp/ | grep -E '^SecondApp/|^SecondApp$') ]]; then
             echo "::set-output name=app::SecondApp"
-          elif echo "$CHANGED_FILES" | grep -qE '^Modules/|^Modules$'; then
+          elif [[ -n $(git log --name-only --pretty=oneline --since=1.commit -- Modules/ | grep -E '^Modules/|^Modules$') ]]; then
             echo "::set-output name=app::Modules"
           else
             echo "::set-output name=app::None"
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Get commit hashes
-        id: get_commit_hashes
-        run: |
-          echo "::set-output name=before_commit::$(git rev-parse ${{ github.event.before }})"
-          echo "::set-output name=after_commit::$(git rev-parse ${{ github.sha }})"
 
       - name: Build and Push Docker Image
         env:
