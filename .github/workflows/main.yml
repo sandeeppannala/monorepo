@@ -35,7 +35,7 @@ jobs:
 
       - name: Build and Push Docker Image
         env:
-          APP_NAME: ${{ steps.app_to_build.outputs.app }}
+          APP_NAME: FirstApp
         run: |
           if [[ $APP_NAME == "FirstApp" ]]; then
             docker build -t 9014680042/firstapp:poc ./FirstApp
