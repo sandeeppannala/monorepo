@@ -13,27 +13,23 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
       - name: Build and Push Docker Image
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           if [[ ${{ github.event_path }} == *"FirstApp"* ]]; then
-            docker build -t docker.io/sandeeppannala/monorepo/FirstApp:${{ github.sha }} FirstApp
-            echo ${{ secrets.DOCKER_PASSWORD }} | docker login docker.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            docker push docker.io/sandeeppannala/monorepo/FirstApp:${{ github.sha }}
+            docker buildx build --platform linux/amd64 --push -t sandeep.pannala@gmail.com/firstapp:${{ github.sha }} FirstApp
           fi
 
           if [[ ${{ github.event_path }} == *"SecondApp"* ]]; then
-            docker build -t ghcr.io/${{ github.repository_owner }}/SecondApp:${{ github.sha }} SecondApp
-            echo ${{ secrets.DOCKER_PASSWORD }} | docker login ghcr.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            docker push ghcr.io/${{ github.repository_owner }}/secondapp:${{ github.sha }}
+            docker buildx build --platform linux/amd64 --push -t sandeep.pannala@gmail.com/secondapp:${{ github.sha }} SecondApp
           fi
 
           if [[ ${{ github.event_path }} == *"Modules"* ]]; then
-            docker build -t ghcr.io/${{ github.repository_owner }}/FirstApp:${{ github.sha }} FirstApp
-            docker build -t ghcr.io/${{ github.repository_owner }}/SecondApp:${{ github.sha }} SecondApp
-            echo ${{ secrets.DOCKER_PASSWORD }} | docker login ghcr.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            docker push ghcr.io/${{ github.repository_owner }}/FirstApp:${{ github.sha }}
-            docker push ghcr.io/${{ github.repository_owner }}/SecondApp:${{ github.sha }}
+            docker buildx build --platform linux/amd64 --push -t sandeep.pannala@gmail.com/firstapp:${{ github.sha }} FirstApp
+            docker buildx build --platform linux/amd64 --push -t sandeep.pannala@gmail.com/secondapp:${{ github.sha }} SecondApp
           fi
